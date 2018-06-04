@@ -18,63 +18,43 @@
 //    }
 //}
 
+void reflect(int * pos_p, int wall, int * v_p){
+    // TODO : test for weird cases? Or assume good input.
+
+
+    // TODO : Double check the math
+    int out = *v_p + (*pos_p - wall);
+    if(*v_p > 0){
+        *pos_p = wall - out;
+    } else{
+        *pos_p = wall + out;
+    }
+
+    //Update vector
+    *v_p *= -1; //TODO : Just flip the relevant bit (fixed point!?!)
+
+}
+
 void updatePosition(ball_t * ball_p, frame_t * frame_p) {
 
-    //checking for collisions in the order left, right, top and bottom.
-    //"if" is on purpose since multiple collisions are possible.
-    // result is L=1, R=2, T=4, B=8, TL=5, TR=6, BL=9, BR=10.
+    //checking for collisions for x and y separately.
+
+    // X
     int collisionType = 0;
-    if (ball_p->xpos + ball_p->xv < ball_p->TLx) {
-        collisionType += 1;
-    }
-    if (ball_p->xpos + ball_p->xv > ball_p->BRx) {
-        collisionType += 2;
-    }
-    if (ball_p->ypos + ball_p->yv < ball_p -> TLy) {
-        collisionType += 4;
-    }
-    if (ball_p->ypos + ball_p->yv > ball_p -> BRy) {
-        collisionType += 8;
+    if(ball_p->xpos + ball_p->xv < ball_p->TLx) {
+        reflect(&ball_p->xpos, ball_p->TLx, &ball_p->xv);
+    } else if (ball_p->xpos + ball_p->xv > ball_p->BRx) {
+        reflect(&ball_p->xpos, ball_p->BRx, &ball_p->xv);
+    } else{
+        ball_p->xpos += ball_p->xv;
     }
 
-    //updating position
-    switch (type) {
-    case 0 :
-        ball_p->xpos += ball_p->xv;
+    // Y
+    if(ball_p->ypos + ball_p->yv < ball_p -> TLy) {
+        reflect(&ball_p->ypos, ball_p->TLy, &ball_p->yv);
+    } else if (ball_p->ypos + ball_p->yv > ball_p -> BRy) {
+        reflect(&ball_p->ypos, ball_p->BRy, &ball_p->yv);
+    } else{
         ball_p->ypos += ball_p->yv;
-    //side collisions
-    case 1 : // Left
-        ball_p->xpos = 2*frame_p->TLx - ball_p->xv - ball_p->xpos;
-        ball_p->ypos = ball_p->ypos + ball_p->yv;
-        break;
-    case 2 : // Right
-        ball_p->xpos = 2*frame_p->BRx - ball_p->xv - ball_p->xpos;
-        ball_p->ypos = ball_p->ypos + ball_p->yv;
-        break;
-    case 4 : // Top
-        ball_p->xpos = ball_p->xpos + ball_p->xv;
-        ball_p->ypos = 2 * frame_p->TLy - ball_p->yv - ball_p->ypos;
-        break;
-    case 8 : // Bottom
-        ball_p->xpos = ball_p->xpos + ball_p->xv;
-        ball_p->ypos = 2 * frame_p -> BRy - ball_p->yv - ball_p->ypos;
-        break;
-    //corner collisions
-    case 5 : // Top Left
-        ball_p->xpos = 2*frame_p->TLx - xv - xpos;
-        ball_p->ypos = 2*frame_p->TLy - yv - ypos;
-        break;
-    case 6 : // Top Right
-        ball_p->xpos = 2*frame_p->BRx - ball_p->xv - ball_p->xpos;
-        ball_p->ypos = 2*frame_p->TLy - ball_p->yv - ball_p->ypos;
-        break;
-    case 9 : // Bottom Left
-        ball_p->xpos = 2*frame_p->TLx - ball_p->xv - ball_p->xpos;
-        ball_p->ypos = 2*frame_p->BRy - ball_p->yv - ball_p->ypos;
-        break;
-    case 10 : // Bottom Right
-        ball_p->xpos = 2*frame_p->BRx - ball_p->xv - ball_p->xpos;
-        ball_p->ypos = 2*frame_p->BRy - ball_p->yv - ball_p->ypos;
-        break;
     }
 }
