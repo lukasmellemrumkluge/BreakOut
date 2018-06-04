@@ -57,7 +57,7 @@ void resetbgcolor() {
   printf("%c[m", ESC);  
 }
 
-void clrsrc() {
+void clrscr() {
     printf("%c[2J",ESC);
 }
 
