@@ -12,12 +12,12 @@ void fgcolor(int foreground) {
       6        Cyan            14       Light Cyan
       7        Light Gray      15       White
 */
-  int type = 22;             // normal text
-	if (foreground > 7) {
-	  type = 1;                // bold text
-		foreground -= 8;
-	}
-  printf("%c[%d;%dm", ESC, type, foreground+30);
+    int type = 22;             // normal text
+    if (foreground > 7) {
+        type = 1;                // bold text
+        foreground -= 8;
+    }
+    printf("%c[%d;%dm", ESC, type, foreground + 30);
 }
 
 void bgcolor(int background) {
@@ -39,153 +39,154 @@ void bgcolor(int background) {
       6        Cyan
       7        Gray
 */
-  printf("%c[%dm", ESC, background+40);
+    printf("%c[%dm", ESC, background + 40);
 }
 
 void color(int foreground, int background) {
 // combination of fgcolor() and bgcolor() - uses less bandwidth
-  int type = 22;             // normal text
-	if (foreground > 7) {
-	  type = 1;                // bold text
-		foreground -= 8;
-	}
-  printf("%c[%d;%d;%dm", ESC, type, foreground+30, background+40);
+    int type = 22;             // normal text
+    if (foreground > 7) {
+        type = 1;                // bold text
+        foreground -= 8;
+    }
+    printf("%c[%d;%d;%dm", ESC, type, foreground + 30, background + 40);
 }
 
 void resetbgcolor() {
 // gray on black text, no underline, no blink, no reverse
-  printf("%c[m", ESC);  
+    printf("%c[m", ESC);
 }
 
 void clrscr() {
-    printf("%c[2J",ESC);
+    printf("%c[2J", ESC);
 }
 
 void clrrol() {
-    printf("%c[K",ESC);
+    printf("%c[K", ESC);
 }
 
 void gotoxy(int x, int y) {
     //printf("%c[H",ESC);
-    printf("%c[%d;%df",ESC,y,x);
+    printf("%c[%d;%df", ESC, y, x);
 }
 
 void underline(uint8_t on) {
-  on ? printf("%c[4m",ESC) : printf("%c[24m",ESC);
+    on ? printf("%c[4m", ESC) : printf("%c[24m", ESC);
 }
 
 void blink(uint8_t on) {
-  on ? printf("%c[5m",ESC) : printf("%c[25m",ESC);
+    on ? printf("%c[5m", ESC) : printf("%c[25m", ESC);
 }
 
 void inverse(uint8_t on) {
-  on ? printf("%c[7m",ESC) : printf("%c[27m",ESC);
+    on ? printf("%c[7m", ESC) : printf("%c[27m", ESC);
 }
 
 //Reset formatting.
 void reset() {
-  printf("%c[m",ESC);
+    printf("%c[m", ESC);
 }
 
-void window(int ax, int ay, int bx, int by, int style, char * title_p) {
+void window(int ax, int ay, int bx, int by, int style, char *title_p) {
 
-  //TODO : Fix char pointer behavior
+    //Title_p == 0 means no title.
 
-  //TODO : Should colors be supported?
+    //TODO : Should colors be supported?
 
-  // a must be TL, b must be BR.
-  if(ax >= bx) return;
-  if(ay >= by) return;
+    // a must be TL, b must be BR.
+    if (ax >= bx) return;
+    if (ay >= by) return;
 
-  //TODO : Test for <= 0 and >= terminal size.
-  // Should out of range box placement be handled here as an input error, or rendered?
+    //TODO : Test for <= 0 and >= terminal size.
+    // Should out of range box placement be handled here as an input error, or rendered?
 
-  uint8_t BG; // Background
-  uint8_t VL; // Vertical Line
-  uint8_t HL; // Horsizontal Line
-  uint8_t TL; // Top Left corner
-  uint8_t TR; // Top Right corner
-  uint8_t BL; // Bottom Left corner
-  uint8_t BR; // Bottom Right corner
-  //Should these be chars?
+    uint8_t BG; // Background
+    uint8_t VL; // Vertical Line
+    uint8_t HL; // Horsizontal Line
+    uint8_t TL; // Top Left corner
+    uint8_t TR; // Top Right corner
+    uint8_t BL; // Bottom Left corner
+    uint8_t BR; // Bottom Right corner
+    //Should these be chars?
 
 
-  switch(style) {
+    switch (style) {
 
-    // STYLE 1
-    // - Double line
-    // - Title on border w. decoration
-    case 1 :
-      BG = 32;
-      vertical = 186;
-      horizontal = 205;
-      TL = 201;
-      TR = 187;
-      BL = 200;
-      BR = 188;
-    break;
+        // STYLE 1
+        // - Double line
+        // - Title on border w. decoration
+        case 1 :
+            BG = 32;
+            vertical = 186;
+            horizontal = 205;
+            TL = 201;
+            TR = 187;
+            BL = 200;
+            BR = 188;
+            break;
 
-    // DEFAULT STYLE
-    // - single line
-    // - title within border
-    // Implicit style 0
-    default :
-      BG = 32;
-      vertical = 179;
-      horizontal = 196;
-      TL = 218;
-      TR = 191;
-      BL = 192;
-      BR = 217;
-  }
-  /*
-    RENDERING:
-    Rendering happens top to bottom, line for line.
-    A whole line is rendered  left-to-right, then
-    gotoxy() is called to move the cursor to the 
-    beginning of the next line. 
-    The title is then rendered on top, if necessary.
-  */
-
-  //Top line
-  gotoxy(ax, ay);
-  printf("%c",TL);
-  for(int i = ax+1; i < bx; i++){
-    printf("%c",HL);
-  }
-  printf("%c",TR);
-
-  //Middle lines
-  for(int i = ay+1; i < by; i++){
-    gotoxy(ax,i);
-    printf("%c",VL);
-    for(int j = ax+1; j < bx; j++){
-      printf("%c",BG);
+            // DEFAULT STYLE
+            // - single line
+            // - title within border
+            // Implicit style 0
+        default :
+            BG = 32;
+            vertical = 179;
+            horizontal = 196;
+            TL = 218;
+            TR = 191;
+            BL = 192;
+            BR = 217;
     }
-    printf("%c",VL);
-  }
+    /*
+      RENDERING:
+      Rendering happens top to bottom, line for line.
+      A whole line is rendered  left-to-right, then
+      gotoxy() is called to move the cursor to the
+      beginning of the next line.
+      The title is then rendered on top, if necessary.
+    */
 
-  //Bottom line
-  gotoxy(ax, by);
-  printf("%c",BL);
-  for(int i = ax+1; i < bx; i++){
-    printf("%c",HL);
-  }
-  printf("%c",BR);
+    //Top line
+    gotoxy(ax, ay);
+    printf("%c", TL);
+    for (int i = ax + 1; i < bx; i++) {
+        printf("%c", HL);
+    }
+    printf("%c", TR);
 
-  //Title rendering
-  switch(style) {
-    case 1 :
-      gotoxy(ax+1, ay);
-      printf("%c",185);
-      printf("%s", title_p);
-      printf("%c",204);
+    //Middle lines
+    for (int i = ay + 1; i < by; i++) {
+        gotoxy(ax, i);
+        printf("%c", VL);
+        for (int j = ax + 1; j < bx; j++) {
+            printf("%c", BG);
+        }
+        printf("%c", VL);
+    }
 
-    default :
-    gotoxy(ax+1, ay+1);
-    printf("%s",title_p);
-  }
+    //Bottom line
+    gotoxy(ax, by);
+    printf("%c", BL);
+    for (int i = ax + 1; i < bx; i++) {
+        printf("%c", HL);
+    }
+    printf("%c", BR);
 
+    //Title rendering
+    if (title_p != 0) {
+        switch (style) {
+            case 1 :
+                gotoxy(ax + 1, ay);
+                printf("%c", 185);
+                printf("%s", title_p);
+                printf("%c", 204);
+
+            default :
+                gotoxy(ax + 1, ay + 1);
+                printf("%s", title_p);
+        }
+    }
 }
 
 
