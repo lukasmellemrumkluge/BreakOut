@@ -18,6 +18,13 @@
 //    }
 //}
 
+typedef struct {
+    int xpos;
+    int ypos;
+    int xv;
+    int yv;
+} ball_t;
+
 void updatePosition(ball_t * ball_p, frame_t * frame_p) {
 
     //checking for collisions in the order left, right, top and bottom.
