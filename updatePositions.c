@@ -18,9 +18,10 @@
 //    }
 //}
 
-int updatePostion(ball_t * ball_p, frame_t * frame_p) {
+void updatePosition(ball_t * ball_p, frame_t * frame_p) {
+
     //checking for collisions in the order left, right, top and bottom.
-    //"if" is on purpose since multiple collions are possible.
+    //"if" is on purpose since multiple collisions are possible.
     // result is L=1, R=2, T=4, B=8, TL=5, TR=6, BL=9, BR=10.
     int collisionType = 0;
     if (ball_p->xpos + ball_p->xv < ball_p->TLx) {
@@ -29,7 +30,7 @@ int updatePostion(ball_t * ball_p, frame_t * frame_p) {
     if (ball_p->xpos + ball_p->xv > ball_p->BRx) {
         collisionType += 2;
     }
-    if (ball_p->ypos + ball_p->yv < ball_p -> TLy {
+    if (ball_p->ypos + ball_p->yv < ball_p -> TLy) {
         collisionType += 4;
     }
     if (ball_p->ypos + ball_p->yv > ball_p -> BRy) {
@@ -42,19 +43,19 @@ int updatePostion(ball_t * ball_p, frame_t * frame_p) {
         ball_p->xpos += ball_p->xv;
         ball_p->ypos += ball_p->yv;
     //side collisions
-    case 1 :
+    case 1 : // Left
         ball_p->xpos = 2*frame_p->TLx - ball_p->xv - ball_p->xpos;
         ball_p->ypos = ball_p->ypos + ball_p->yv;
         break;
-    case 2 :
+    case 2 : // Right
         ball_p->xpos = 2*frame_p->BRx - ball_p->xv - ball_p->xpos;
         ball_p->ypos = ball_p->ypos + ball_p->yv;
         break;
-    case 4 :
+    case 4 : // Top
         ball_p->xpos = ball_p->xpos + ball_p->xv;
-        ball_p->ypos = 2 * frame_p -> TLy - ball_p->yv - ball_p->ypos;
+        ball_p->ypos = 2 * frame_p->TLy - ball_p->yv - ball_p->ypos;
         break;
-    case 8 :
+    case 8 : // Bottom
         ball_p->xpos = ball_p->xpos + ball_p->xv;
         ball_p->ypos = 2 * frame_p -> BRy - ball_p->yv - ball_p->ypos;
         break;
