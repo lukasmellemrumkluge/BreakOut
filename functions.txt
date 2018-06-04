@@ -1,0 +1,6 @@
+Overview of functions
+
+updatePosition(ball_t * ball_p, frame_t * frame_p)
+  - is to be used with a ball struct and a frame struct
+  - updates the position of the ball according to velocity and collisions
+

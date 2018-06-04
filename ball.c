@@ -18,6 +18,13 @@
 //    }
 //}
 
+typedef struct {
+    int xpos;
+    int ypos;
+    int xv;
+    int yv;
+} ball_t;
+
 void reflect(int * pos_p, int wall, int * v_p){
     // TODO : test for weird cases? Or assume good input.
 
