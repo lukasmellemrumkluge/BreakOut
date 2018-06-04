@@ -87,7 +87,9 @@ void reset() {
   printf("%c[m",ESC);
 }
 
-void window(int ax, int ay, int bx, int by, int style, char[] title) {
+void window(int ax, int ay, int bx, int by, int style, char * title_p) {
+
+  //TODO : Fix char pointer behavior
 
   //TODO : Should colors be supported?
 
@@ -96,7 +98,7 @@ void window(int ax, int ay, int bx, int by, int style, char[] title) {
   if(ay >= by) return;
 
   //TODO : Test for <= 0 and >= terminal size.
-  // Should out of range box placement be handled here as an input erroe, or rendered?
+  // Should out of range box placement be handled here as an input error, or rendered?
 
   uint8_t BG; // Background
   uint8_t VL; // Vertical Line
@@ -108,7 +110,7 @@ void window(int ax, int ay, int bx, int by, int style, char[] title) {
   //Should these be chars?
 
 
-  switch(style) {
+  switch(style) {
 
     // STYLE 1
     // - Double line
@@ -176,12 +178,12 @@ void window(int ax, int ay, int bx, int by, int style, char[] title) {
     case 1 :
       gotoxy(ax+1, ay);
       printf("%c",185);
-      printf("%s", title);
+      printf("%s", title_p);
       printf("%c",204);
 
     default :
     gotoxy(ax+1, ay+1);
-    printf("%s",title);
+    printf("%s",title_p);
   }
 
 }
