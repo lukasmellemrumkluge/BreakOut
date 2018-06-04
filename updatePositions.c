@@ -60,19 +60,19 @@ void updatePosition(ball_t * ball_p, frame_t * frame_p) {
         ball_p->ypos = 2 * frame_p -> BRy - ball_p->yv - ball_p->ypos;
         break;
     //corner collisions
-    case 5 :
+    case 5 : // Top Left
         ball_p->xpos = 2*frame_p->TLx - xv - xpos;
         ball_p->ypos = 2*frame_p->TLy - yv - ypos;
         break;
-    case 6 :
+    case 6 : // Top Right
         ball_p->xpos = 2*frame_p->BRx - ball_p->xv - ball_p->xpos;
         ball_p->ypos = 2*frame_p->TLy - ball_p->yv - ball_p->ypos;
         break;
-    case 9 :
+    case 9 : // Bottom Left
         ball_p->xpos = 2*frame_p->TLx - ball_p->xv - ball_p->xpos;
         ball_p->ypos = 2*frame_p->BRy - ball_p->yv - ball_p->ypos;
         break;
-    case 10 :
+    case 10 : // Bottom Right
         ball_p->xpos = 2*frame_p->BRx - ball_p->xv - ball_p->xpos;
         ball_p->ypos = 2*frame_p->BRy - ball_p->yv - ball_p->ypos;
         break;
