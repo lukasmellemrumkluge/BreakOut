@@ -1,5 +1,6 @@
 #define ESC 0x1B
 
+#include "stm32f30x_conf.h" // STM32 config
 #include "PhysicsEngine.h"
 
 
@@ -119,8 +120,8 @@ void window(frame_t * frame_p, int style, char * title_p) {
         // - Title on border w. decoration
         case 1 :
             BG = 32;
-            vertical = 186;
-            horizontal = 205;
+            VL = 186;
+            HL = 205;
             TL = 201;
             TR = 187;
             BL = 200;
@@ -133,8 +134,8 @@ void window(frame_t * frame_p, int style, char * title_p) {
             // Implicit style 0
         default :
             BG = 32;
-            vertical = 179;
-            horizontal = 196;
+            VL = 179;
+            HL = 196;
             TL = 218;
             TR = 191;
             BL = 192;
