@@ -92,8 +92,11 @@ void reset() {
 }
 
 // renders a window
-void window(frame_t * frame_p, int style, char * title_p) {
 
+void window(frame_t * frame_p, int style, char * title_p) {
+    
+    //TODO : declare frame parameters as uint_8's and adjust rest of code accordingly
+    
     //Title_p == 0 means no title.
 
     //TODO : Should colors be supported?
