@@ -9,26 +9,35 @@
 int main(void) {
     //initialize border
     frame_t border;
-    border.TLx = 1;
-    border.TLy = 1;
-    border.BRx = 10;
-    border.BRy = 10;
+    border.TLx = (1 << 14);
+    border.TLy = (1 << 14);
+    border.BRx = (10 << 14);
+    border.BRy = (10 << 14);
 
     //initialize ball
     ball_t ball;
-    ball.xpos = 6;
-    ball.ypos = 7;
-    ball.xv = 1;
-    ball.yv = 1;
+    ball.xpos = (6 << 14);
+    ball.ypos = (7 << 14);
+    ball.xv = (1 << 14);
+    ball.yv = (1 << 14);
 
+    int n;
+
+    init_usb_uart( 9600 );
     //render first frame
     renderAll(&ball, &border);
 
     //begin gameplay
-    int i;
-    for(i = 0; i < 100; i++) {
-        updateBall(&ball, &border);
-        renderAll(&ball, &border);
+
+    while(1) {
+        if (n > 1000) {
+            updateBall(&ball, &border);
+            renderAll(&ball, &border);
+            n = 0;
+        }
+        else {
+           n++;
+        }
     }
     while(1){}
 }
