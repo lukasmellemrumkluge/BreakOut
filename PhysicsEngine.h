@@ -1,3 +1,7 @@
+
+#ifndef _PHYSICSENGINE_H_
+#define _PHYSICSENGINE_H_
+
 /* PhysicsEngine.h
  * contains ball and frame struct, and prototypes for the physics functions.
  */
@@ -21,3 +25,5 @@ typedef struct {
 //function declarations
 void reflect(int * pos_p, int wall, int * v_p);
 void updateBall(ball_t * ball_p, frame_t * frame_p);
+
+#endif /* _PHYSICSENGINE_H_ */
