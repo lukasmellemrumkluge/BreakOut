@@ -191,8 +191,8 @@ void window(int ax, int ay, int bx, int by, int style, char *title_p) {
 }
 
 // takes pointer to ball_struct and renders it according to the postion.
-renderBall(ball_t * ball_p) {
-    gotoxy(ball_p->xpos, ball_p-> );
+void renderBall(ball_t * ball_p) {
+    gotoxy(ball_p->xpos, ball_p->ypos);
     printf("o");
 }
 
