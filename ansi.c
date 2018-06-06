@@ -88,15 +88,15 @@ void reset() {
 }
 
 // renders a window
-void window(int ax, int ay, int bx, int by, int style, char *title_p) {
+void window(frame_t * frame_p, int style, char * title_p) {
 
     //Title_p == 0 means no title.
 
     //TODO : Should colors be supported?
 
-    // a must be TL, b must be BR.
-    if (ax >= bx) return;
-    if (ay >= by) return;
+    // Checks for bad input.
+    if (frame_p->TLx >= frame_p->BRx) return;
+    if (frame_p->TLy >= frame_p->BRy) return;
 
     //TODO : Test for <= 0 and >= terminal size.
     // Should out of range box placement be handled here as an input error, or rendered?
@@ -108,8 +108,6 @@ void window(int ax, int ay, int bx, int by, int style, char *title_p) {
     uint8_t TR; // Top Right corner
     uint8_t BL; // Bottom Left corner
     uint8_t BR; // Bottom Right corner
-    //Should these be chars?
-
 
     switch (style) {
 
@@ -149,27 +147,27 @@ void window(int ax, int ay, int bx, int by, int style, char *title_p) {
     */
 
     //Top line
-    gotoxy(ax, ay);
+    gotoxy(frame_p->TLx, frame_p->TLy);
     printf("%c", TL);
-    for (int i = ax + 1; i < bx; i++) {
+    for (int i = frame_p->TLx + 1; i < frame_p->BRx; i++) {
         printf("%c", HL);
     }
     printf("%c", TR);
 
     //Middle lines
-    for (int i = ay + 1; i < by; i++) {
-        gotoxy(ax, i);
+    for (int i = frame_p->TLy + 1; i < frame_p->BRy; i++) {
+        gotoxy(frame_p->TLx, i);
         printf("%c", VL);
-        for (int j = ax + 1; j < bx; j++) {
+        for (int j = frame_p->TLx + 1; j < frame_p->BRx; j++) {
             printf("%c", BG);
         }
         printf("%c", VL);
     }
 
     //Bottom line
-    gotoxy(ax, by);
+    gotoxy(frame_p->TLx, frame_p->BRy);
     printf("%c", BL);
-    for (int i = ax + 1; i < bx; i++) {
+    for (int i = frame_p->TLx + 1; i < frame_p->BRx; i++) {
         printf("%c", HL);
     }
     printf("%c", BR);
@@ -178,13 +176,13 @@ void window(int ax, int ay, int bx, int by, int style, char *title_p) {
     if (title_p != 0) {
         switch (style) {
             case 1 :
-                gotoxy(ax + 1, ay);
+                gotoxy(frame_p->TLx + 1, frame_p->TLy);
                 printf("%c", 185);
                 printf("%s", title_p);
                 printf("%c", 204);
 
             default :
-                gotoxy(ax + 1, ay + 1);
+                gotoxy(frame_p->TLx + 1, frame_p->TLy + 1);
                 printf("%s", title_p);
         }
     }
@@ -196,3 +194,7 @@ void renderBall(ball_t * ball_p) {
     printf("o");
 }
 
+void renderAll(ball_t * ball_p, frame_t * frame_p){
+    window(frame_p);
+    renderBall(ball_p);
+}
