@@ -56,7 +56,7 @@ void initializeJoystick(){
 
 uint8_t readJoystick(){
     uint8_t output = 0x00;
-    //viderefører registrene til program variabler
+    //viderefÃ¸rer registrene til program variabler
     uint16_t Aval = GPIOA->IDR & (0x0010);
     //GPIOA->ODR |= (0x0001 << 1); //Set pin PA1 to high
     uint16_t Bval = GPIOB->IDR & (0x0021);
