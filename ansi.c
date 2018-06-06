@@ -87,6 +87,7 @@ void reset() {
     printf("%c[m", ESC);
 }
 
+// renders a window
 void window(int ax, int ay, int bx, int by, int style, char *title_p) {
 
     //Title_p == 0 means no title.
@@ -189,4 +190,9 @@ void window(int ax, int ay, int bx, int by, int style, char *title_p) {
     }
 }
 
+// takes pointer to ball_struct and renders it according to the postion.
+renderBall(ball_t * ball_p) {
+    gotoxy(ball_p->xpos, ball_p-> );
+    printf("o");
+}
 
