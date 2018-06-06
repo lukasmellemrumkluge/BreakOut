@@ -11,8 +11,9 @@ typedef struct {
 // general one-dimensional reflect function taking moving object position and
 // velocity plus statical object position.
 void reflect(int * pos_p, int wall, int * v_p){
-
-    // TODO : test for weird cases? Or assume good input.
+    //This function assumes good input.
+    //All checks must be made before calling it.
+    
     // TODO : Double check the math
     
     int out = *v_p + (*pos_p - wall);
@@ -23,7 +24,8 @@ void reflect(int * pos_p, int wall, int * v_p){
     }
 
     //Update vector
-    *v_p *= -1; //TODO : Just flip the relevant bit (fixed point!?!)
+    *v_p *= -1; 
+    //TODO : Just flip the relevant bit (fixed point!?!)
 
 }
 
