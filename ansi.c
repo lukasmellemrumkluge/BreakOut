@@ -190,11 +190,17 @@ void window(frame_t * frame_p, int style, char * title_p) {
 
 // takes pointer to ball_struct and renders it according to the postion.
 void renderBall(ball_t * ball_p) {
-    gotoxy(ball_p->xpos, ball_p->ypos);
+    //Rounds an 18.14 fixed point number down.
+    int rendX = ball_p->xpos >> 14;
+    int rendY = ball_p->ypos >> 14;
+    
+    gotoxy(rendX, rendY);
     printf("o");
 }
 
 void renderAll(ball_t * ball_p, frame_t * frame_p){
+    //clrscr();
+    // ^^ redundant, since window renders over everything as well.
     window(frame_p);
     renderBall(ball_p);
 }
