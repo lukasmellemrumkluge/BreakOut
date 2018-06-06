@@ -13,22 +13,22 @@ int main(void) {
     border.TLy = 1;
     border.BRx = 10;
     border.BRy = 10;
-    
+
     //initialize ball
     ball_t ball;
     ball.xpos = 6;
     ball.ypos = 7;
     ball.xv = 1;
     ball.yv = 1;
-    
+
     //render first frame
-    renderAll(ball * ball_p, frame_p * frame_t);
-    
+    renderAll(&ball, &border);
+
     //begin gameplay
     int i;
     for(i = 0; i < 100; i++) {
-        updatePostion(ball, border);
-        renderAll(ball * ball_p, frame_p * frame_t);
+        updateBall(&ball, &border);
+        renderAll(&ball, &border);
     }
     while(1){}
 }
