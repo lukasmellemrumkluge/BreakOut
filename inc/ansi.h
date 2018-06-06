@@ -14,7 +14,8 @@ void underline(uint8_t on);
 void blink(uint8_t on);
 void inverse(uint8_t on);
 void reset();
-void window(int ax, int ay, int bx, int by, int style, char * title);
+void window(frame_t * frame_p, int style, char * title);
 void renderBall(ball_t * ball_p);
+void renderAll(ball_t * ball_p, frame_t * frame_p);
 
 #endif /* _ANSI_H_ */
