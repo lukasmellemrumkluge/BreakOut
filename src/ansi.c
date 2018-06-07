@@ -104,6 +104,7 @@ void printFrameLine(uint8_t x, uint8_t y, char left, char middle, char right, ui
     line[length] = '\0';
     gotoxy(x, y);
     printf("%s", line);
+    free(line);
 }
 
 //renders a window
