@@ -4,6 +4,8 @@
 #include "PhysicsEngine.h"
 
 
+
+
 void fgcolor(int foreground) {
 /*  Value      foreground     Value     foreground
     ------------------------------------------------
@@ -89,6 +91,11 @@ void inverse(uint8_t on) {
 //Reset formatting.
 void reset() {
     printf("%c[m", ESC);
+}
+
+//hide cursor
+void hideCursor() {
+    printf("%c[?25l",ESC);
 }
 
 
