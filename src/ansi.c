@@ -95,15 +95,21 @@ void reset() {
 
 void window(frame_t * frame_p, int style, char * title_p) {
     
-    //TODO : declare frame parameters as uint_8's and adjust rest of code accordingly
+    uint8_t db = 14; // number of decimal bits in the frame type fields
+    
+    //convert frame fields to uint8_t
+    uint8_t TLx = (frame_p->TLx >> db);
+    uint8_t TLy = (frame_p->TLy >> db);
+    uint8_t BRx = (frame_p->BRx >> db);
+    uint8_t BRy = (frame_p->BRy >> db);
     
     //Title_p == 0 means no title.
 
     //TODO : Should colors be supported?
 
     // Checks for bad input.
-    if (frame_p->TLx >= frame_p->BRx) return;
-    if (frame_p->TLy >= frame_p->BRy) return;
+    if (TLx >= BRx) return;
+    if (TLy >= BRy) return;
 
     //TODO : Test for <= 0 and >= terminal size.
     // Should out of range box placement be handled here as an input error, or rendered?
@@ -154,27 +160,27 @@ void window(frame_t * frame_p, int style, char * title_p) {
     */
 
     //Top line
-    gotoxy(frame_p->TLx, frame_p->TLy);
+    gotoxy(TLx, TLy);
     printf("%c", TL);
-    for (int i = frame_p->TLx + 1; i < frame_p->BRx; i++) {
+    for (int i = TLx + 1; i < BRx; i++) {
         printf("%c", HL);
     }
     printf("%c", TR);
 
     //Middle lines
-    for (int i = frame_p->TLy + 1; i < frame_p->BRy; i++) {
-        gotoxy(frame_p->TLx, i);
+    for (int i = TLy + 1; i < BRy; i++) {
+        gotoxy(TLx, i);
         printf("%c", VL);
-        for (int j = frame_p->TLx + 1; j < frame_p->BRx; j++) {
+        for (int j = TLx + 1; j < BRx; j++) {
             printf("%c", BG);
         }
         printf("%c", VL);
     }
 
     //Bottom line
-    gotoxy(frame_p->TLx, frame_p->BRy);
+    gotoxy(TLx, BRy);
     printf("%c", BL);
-    for (int i = frame_p->TLx + 1; i < frame_p->BRx; i++) {
+    for (int i = TLx + 1; i < BRx; i++) {
         printf("%c", HL);
     }
     printf("%c", BR);
@@ -183,13 +189,13 @@ void window(frame_t * frame_p, int style, char * title_p) {
     if (title_p != 0) {
         switch (style) {
             case 1 :
-                gotoxy(frame_p->TLx + 1, frame_p->TLy);
+                gotoxy(TLx + 1, TLy);
                 printf("%c", 185);
                 printf("%s", title_p);
                 printf("%c", 204);
 
             default :
-                gotoxy(frame_p->TLx + 1, frame_p->TLy + 1);
+                gotoxy(TLx + 1, TLy + 1);
                 printf("%s", title_p);
         }
     }
