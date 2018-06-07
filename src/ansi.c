@@ -32,7 +32,7 @@ void bgcolor(int background) {
  	              way comming back.
    Hint:        Use resetbgcolor(); clrscr(); to force HyperTerminal into gray text on black background.
 
-    Value      Color      
+    Value      Color
     ------------------
       0        Black
       1        Red
@@ -91,18 +91,32 @@ void reset() {
     printf("%c[m", ESC);
 }
 
-// renders a window
 
+//helpfunction for window function. Takes coordinates, end and middle characters and line length
+void printFrameLine(uint8_t x, uint8_t y, char left, char middle, char right, uint8_t length) {
+    char * line = calloc(length + 1,sizeof (char));
+    line[0] = left;
+    int i;
+    for (i = 1; i < length - 1; i++) {
+        line[i] = middle;
+    }
+    line[length - 1] = right;
+    line[length] = '\0';
+    gotoxy(x, y);
+    printf("%s", line);
+}
+
+//renders a window
 void window(frame_t * frame_p, int style, char * title_p) {
-    
+
     uint8_t db = 14; // number of decimal bits in the frame type fields
-    
+
     //convert frame fields to uint8_t
     uint8_t TLx = (frame_p->TLx >> db);
     uint8_t TLy = (frame_p->TLy >> db);
     uint8_t BRx = (frame_p->BRx >> db);
     uint8_t BRy = (frame_p->BRy >> db);
-    
+
     //Title_p == 0 means no title.
 
     //TODO : Should colors be supported?
@@ -159,31 +173,19 @@ void window(frame_t * frame_p, int style, char * title_p) {
       The title is then rendered on top, if necessary.
     */
 
-    //Top line
-    gotoxy(TLx, TLy);
-    printf("%c", TL);
-    for (int i = TLx + 1; i < BRx; i++) {
-        printf("%c", HL);
-    }
-    printf("%c", TR);
+    uint8_t length = BRx - TLx + 1;
 
-    //Middle lines
-    for (int i = TLy + 1; i < BRy; i++) {
-        gotoxy(TLx, i);
-        printf("%c", VL);
-        for (int j = TLx + 1; j < BRx; j++) {
-            printf("%c", BG);
-        }
-        printf("%c", VL);
+    //Top line
+    printFrameLine(TLx, TLy, TL, HL, TR, length);
+
+    //Middle lines (outcommented for testing)
+    int y;
+    for (y = TLy + 1; y < BRy; y++) {
+         printFrameLine(TLx, y, VL, BG, VL, length);
     }
 
     //Bottom line
-    gotoxy(TLx, BRy);
-    printf("%c", BL);
-    for (int i = TLx + 1; i < BRx; i++) {
-        printf("%c", HL);
-    }
-    printf("%c", BR);
+    printFrameLine(TLx, BRy, BL, HL, BR, length);
 
     //Title rendering
     if (title_p != 0) {
@@ -206,7 +208,7 @@ void renderBall(ball_t * ball_p) {
     //Rounds an 18.14 fixed point number down.
     int rendX = ball_p->xpos >> 14;
     int rendY = ball_p->ypos >> 14;
-    
+
     gotoxy(rendX, rendY);
     printf("o");
 }
@@ -216,7 +218,7 @@ void renderAll(ball_t * ball_p, frame_t * frame_p){
     clrscr();
     window(frame_p,0,0);
     renderBall(ball_p);
-    
+
     //TODO: render bricks and striker
-    
+
 }
