@@ -42,20 +42,24 @@ GPIOC->OTYPER |= (0X0001 << (7)); // SET OUTPUT TYPE REGISTER (0X00 -PUSH PULL, 
 }
 
 void setLed(uint8_t rgb){ // for the rgb 0x04 - red lamp, 0x02 - green color, 0x01 - blue color
-    // Setting LED's
+
+    //Bits:
+    //  usage:  -----RGB
+    //  bit:    00000000
+
+    //Setting Red LED
     if(rgb & (0x01 << 2)){
         GPIOB->ODR &= ~(0x0001 << 4); //Resets Light
     } else{
         GPIOB->ODR |= (0x0001 << 4); //Sets Light
     }
 
-
+    //Setting Green LED
     if(rgb & (0x01 << 1)){
         GPIOC->ODR &= ~(0x0001 << 7); //Resets Light
     } else{
         GPIOC->ODR |= (0x0001 << 7); //Sets Light
     }
-
 
     //Setting Blue LED
     if(rgb & (0x01 << 0)){
