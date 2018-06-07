@@ -214,6 +214,6 @@ void renderBall(ball_t * ball_p) {
 void renderAll(ball_t * ball_p, frame_t * frame_p){
     //clrscr();
     // ^^ redundant, since window renders over everything as well.
-    window(frame_p);
+    window(frame_p,0,0);
     renderBall(ball_p);
 }
