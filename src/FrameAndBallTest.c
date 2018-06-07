@@ -23,14 +23,14 @@ int main(void) {
 
     int n;
 
-    init_usb_uart( 9600 );
+    init_usb_uart( 115200 );
     //render first frame
+    hideCursor();
     renderAll(&ball, &border);
 
     //begin gameplay
-
     while(1) {
-        if (n > 1000) {
+        if (n > 100000) {
             updateBall(&ball, &border);
             renderAll(&ball, &border);
             n = 0;
