@@ -1,24 +1,13 @@
 //.c file for all internal 'physics' functions and structs in the program
 #include "PhysicsEngine.h"
 
-
-//ball struct containing postion and velocity
-//typedef struct {
-//    int xpos;
-//    int ypos;
-//    int xv;
-//    int yv;
-//} ball_t;
-
-
+// Uses 18.14 fixed-point integers
 
 // general one-dimensional reflect function taking moving object position and
 // velocity plus statical object position.
 void reflect(int * pos_p, int wall, int * v_p){
     //This function assumes good input.
     //All checks must be made before calling it.
-
-    // TODO : Double check the math
 
     int out = *v_p + (*pos_p - wall);
     if(*v_p > 0){
@@ -28,9 +17,10 @@ void reflect(int * pos_p, int wall, int * v_p){
     }
 
     //Update vector
-    *v_p *= -1;
-    //TODO : Just flip the relevant bit (fixed point!?!)
+    ~*v_p;  //NOTs all bits
+            //Works because two's complement
 
+    //*v_p *= -1;
 }
 
 //calculates next position and velocity of the ball
