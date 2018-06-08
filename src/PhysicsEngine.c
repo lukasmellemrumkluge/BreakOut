@@ -9,15 +9,10 @@ void reflect(int * pos_p, int wall, int * v_p){
     //This function assumes good input.
     //All checks must be made before calling it.
 
-    int out = *v_p + (*pos_p - wall);
-    if(*v_p > 0){
-        *pos_p = wall - out;
-    } else{
-        *pos_p = wall + out;
-    }
+    *pos_p = (wall << 1) - *v_p - *pos_p;
 
     //Update vector
-    ~*v_p;  //NOTs all bits
+    *v_p = ~*v_p + 1;  //NOTs all bits
             //Works because two's complement
 
     //*v_p *= -1;
