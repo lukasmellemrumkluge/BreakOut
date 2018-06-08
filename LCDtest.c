@@ -34,12 +34,10 @@ void lcd_update(char * text, int * readIndex, uint8_t line, uint8_t * buffer){
 	char c = text[*readIndex/5] - 0x20;
 	buffer[127 + offset] = character_data[c][*readIndex%5];
 	(*readIndex)++;
-
-    lcd_push_buffer(buffer);
-
+	
+	lcd_push_buffer(buffer);
+	
 	//Start from beginning of string when end is reached.
-	//Sizeof(text) works because a char only takes up one byte. -1 because of the end character
-	//TODO : Confirm this works as intended
 	if((*readIndex)/5 >= strlen(text)){
 		(*readIndex) = 0;
 	}
@@ -61,9 +59,6 @@ void lcd_write_string(int slice, uint8_t line, char * text, uint8_t * buffer){
 	int textLength = strlen(text);
 	int textLines = textLength*5;
 
-	//From relative slice to absolute slice
-	//slice += line*128;
-
 	//Current char
 	uint8_t c;
 
@@ -73,7 +68,7 @@ void lcd_write_string(int slice, uint8_t line, char * text, uint8_t * buffer){
 	//Drawing position, in slices
 	int rendPos = slice;
 	int offset = line * 128;
-	//uint8_t breakflag = 0;
+
 	//Filling the required line of the buffer, once.
 	while(1){
 	//While loop supports multiple renderings of short words.
@@ -130,8 +125,9 @@ void lcd_write_string(int slice, uint8_t line, char * text, uint8_t * buffer){
 
 int main(){
 
-	//Important LCD functions:
-    init_usb_uart(9600);
+	//Initialize USB serial connection:
+	init_usb_uart(9600);
+	
 	//Initialize the LCD
 	init_spi_lcd();
 
@@ -147,6 +143,3 @@ int main(){
 	lcd_push_buffer(buffer);
 	while(1){}
 }
-
-
-
