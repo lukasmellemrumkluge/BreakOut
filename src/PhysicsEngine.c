@@ -11,11 +11,7 @@ void reflect(int * pos_p, int wall, int * v_p){
 
     *pos_p = (wall << 1) - *v_p - *pos_p;
 
-    //Update vector
-    *v_p = ~*v_p + 1;  //NOTs all bits
-            //Works because two's complement
-
-    //*v_p *= -1;
+    *v_p *= -1;
 }
 
 //calculates next position and velocity of the ball
