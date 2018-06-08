@@ -209,6 +209,18 @@ void window(frame_t * frame_p, int style, char * title_p) {
                 printf("%s", title_p);
         }
     }
+    //free memory
+    free(&TLx);
+    free(&TLy);
+    free(&BRx);
+    free(&BRy);
+    free(&BG);
+    free(&VL);
+    free(&HL);
+    free(&TL);
+    free(&TR);
+    free(&BL); 
+    free(&BR);  
 }
 
 // takes pointer to ball_struct and renders it according to the postion.
@@ -228,5 +240,4 @@ void renderAll(ball_t * ball_p, frame_t * frame_p){
     renderBall(ball_p);
 
     //TODO: render bricks and striker
-
 }
